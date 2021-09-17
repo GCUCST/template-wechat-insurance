@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta th:include="/common/libs :: common_head"/>
+    <title>我的邀请二维码</title>
+</head>
+
+<script>
+    var sourc = new EventSource("/api/user/sse");
+    sourc.onmessage = function (e){
+        document.getElementById("dat").innerText = e.data
+    }
+
+</script>
+<body style="display: flex;justify-content: center;">
+=======服务端主动推送数据
+<div style="width: 80%;text-align: center">
+    <h3 id="dat"></h3>
+</div>
+
+=======服务端主动推送数据
+</body>
+</html>

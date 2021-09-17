@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
 
-    private final UserMapper userMapper;
-
-    public UserServiceImpl(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
+//    private final UserMapper userMapper;
+//
+//    public UserServiceImpl(UserMapper userMapper) {
+//        this.userMapper = userMapper;
+//    }
 
 
 }

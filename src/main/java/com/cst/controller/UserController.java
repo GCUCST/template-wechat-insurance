@@ -1,104 +1,78 @@
 package com.cst.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.Query;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cst.entities.User;
-import com.cst.mapper.UserMapper;
-import com.cst.service.UserService;
-import com.cst.utils.ResModel;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@RestController
-@Slf4j
+@Controller
 @RequestMapping("/api/user")
-public class UserController extends BaseController{
+public class UserController {
 
-    final UserService userService;
 
-    public UserController(UserService userMapper) {
-        this.userService = userMapper;
-    }
-    @PostMapping
-    public ResModel add(@RequestBody User user) {
-        boolean save = userService.save(user);
-        log.info("插入：{}",save);
-        return ResModel.ok(user);
-    }
-
-    @GetMapping("/list")
-    public ResModel list() {
-        List<User> list = userService.list(null);
-        log.info("list：{}",list);
-        return ResModel.ok(list);
-    }
-
-    @GetMapping("/page")
-    public ResModel page(@RequestParam(value = "page",defaultValue = "0") Long page,
-                         @RequestParam(value = "size",defaultValue = "3") Long size) {
-        Page<User> pageObj = new Page(page,size);
-        Page<User> result = userService.page(pageObj,null);
-        long total = result.getTotal();
-        long current = result.getCurrent();
-        System.out.println(total+" "+current);
-        log.info("list：{}",result.getRecords());
-        return ResModel.ok(result);
+    @GetMapping("/test")
+    public Mono<String> test() {
+        return Mono.just("hello");
     }
 
 
-//    @GetMapping("/wrap")
-//    public ResModel wrap() {
-//      //  List<User> list = userService.query().eq("name", "陈少桐").list();
-//        QueryWrapper queryWrapper = new QueryWrapper();
-//        queryWrapper.in("name","陈少桐");
-//        queryWrapper.select("openid");
-//        String sqlSelect = queryWrapper.getSqlSelect();
-//        String sqlSelgetTargetSqlect = queryWrapper.getTargetSql();
-//        System.out.println(sqlSelgetTargetSqlect);
-//        List list2 = userService.list(queryWrapper);
-//
-//        System.out.println(list2);
-//        return ResModel.ok();
-//    }
-    @GetMapping("/wrap")
-    public ResModel wrap() {
-      //  List<User> list = userService.query().eq("name", "陈少桐").list();
-        Map<String,String> parmas = new HashMap();
-        parmas.put("recommenderId","abc");
-        parmas.put("name","abc");
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.allEq((k,v)->{
-
-            //把name这个过滤条件去掉
-            if(k.toString().equals("name")){
-                return false;
-            }
-
-            return true;
-        },parmas,false);
-        queryWrapper.isNotNull("name");
-
-        List<User> list = userService.list(queryWrapper);
-        System.out.println(list);
-        System.out.println(list.size());
-
-
-        return ResModel.ok(list);
+    public static Map<String, User> map = new HashMap<>();
+    static  {
+        map.put("1",new User());
+        map.put("2",new User());
+        map.put("3",new User());
+        map.put("4",new User());
     }
-//    @GetMapping("/listByOpenId")
-//    public ResModel listByOpenId(int page,int size) {
-//        List<User> list = userMapper.listByOpenId(getUser().getOpenid(),page, size);
-//        log.info("listByOpenId：{}",list);
-//        return ResModel.ok(list);
-//    }
+
+    public Flux<User> list(){
+        Collection<User>  list =  map.values();
+        return Flux.fromIterable(list);
+    }
+
+    @GetMapping("/find")
+    public Mono<User> getById(String id){
+        return Mono.justOrEmpty(map.get(id));
+    }
+    @GetMapping("/delay")
+    public Mono<User> delay(String id){
+        return Mono.justOrEmpty(map.get(id)).delayElement(Duration.ofSeconds(3));
+    }
+
+    public Mono<User> del(String id){
+        return Mono.justOrEmpty(map.remove(id));
+    }
+
+
+    @RequestMapping(value = "/ssePage")
+    public String ssePage(String id){
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "sse";
+    }
+    @RequestMapping(value = "/sse",produces = "text/event-stream")
+    @ResponseBody
+    public String sse(String id){
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return "data:"+Math.random();
+    }
+
 
 
 }
