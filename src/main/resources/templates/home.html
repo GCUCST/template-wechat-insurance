@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>正在打开网页</title>
+    <meta th:include="/common/libs :: common_head"/>
+</head>
+<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</body>
+<script th:inline="javascript">
+    let redirectUrl = [[${redirectUrl}]];
+    console.log("redirectUrl:::" + redirectUrl)
+    setTimeout(() => {
+        window.open(redirectUrl, "_self");
+    }, 20)
+</script>
+</html>

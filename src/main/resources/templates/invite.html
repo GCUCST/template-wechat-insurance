@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>我的邀请二维码</title>
+    <meta th:include="/common/libs :: common_head"/>
+</head>
+<body style="display: flex;justify-content: center;">
+
+<div style="width: 80%;text-align: center">
+    <h3 >请扫描该二维码填写数据</h3>
+    <div style="">
+        <img th:src="${imageData}">
+    </div>
+</div>
+
+
+</body>
+</html>
