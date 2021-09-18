@@ -6,14 +6,9 @@
     <meta th:include="/common/libs :: common_head"/>
 </head>
 <body>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+我是home页面
 </body>
 <script th:inline="javascript">
-    let redirectUrl = [[${redirectUrl}]];
-    console.log("redirectUrl:::" + redirectUrl)
-    setTimeout(() => {
-        window.open(redirectUrl, "_self");
-    }, 20)
+
 </script>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -20,7 +21,16 @@ public class WebConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(localeChangeInterceptor());
     }
 
-//    @Bean
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/home").setViewName("home");
+        registry.addViewController("/").setViewName("home");
+        registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/login").setViewName("login");
+    }
+
+
+    //    @Bean
 //    public LocaleResolver localeResolver(){
 //        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
 //        localeResolver.setCookieName("localeCookie"); // 将语言信息添加到Cookie中
