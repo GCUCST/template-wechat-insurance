@@ -10,7 +10,6 @@ public class App {
 
 
     public static void main(String[] args) {
-        System.out.println(args.toString());
         SpringApplication.run(App.class, args);
 //        String[] beanDefinitionNames = run.getBeanDefinitionNames();
 //        for (String a:beanDefinitionNames){

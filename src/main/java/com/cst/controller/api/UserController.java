@@ -1,14 +1,11 @@
-package com.cst.controller;
+package com.cst.controller.api;
 
 
 import com.cst.entities.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.Duration;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,11 +13,6 @@ import java.util.Map;
 @RequestMapping("/api/user")
 public class UserController {
 
-
-    @GetMapping("/test")
-    public Mono<String> test() {
-        return Mono.just("hello");
-    }
 
 
     public static Map<String, User> map = new HashMap<>();
@@ -31,23 +23,6 @@ public class UserController {
         map.put("4",new User());
     }
 
-    public Flux<User> list(){
-        Collection<User>  list =  map.values();
-        return Flux.fromIterable(list);
-    }
-
-    @GetMapping("/find")
-    public Mono<User> getById(String id){
-        return Mono.justOrEmpty(map.get(id));
-    }
-    @GetMapping("/delay")
-    public Mono<User> delay(String id){
-        return Mono.justOrEmpty(map.get(id)).delayElement(Duration.ofSeconds(3));
-    }
-
-    public Mono<User> del(String id){
-        return Mono.justOrEmpty(map.remove(id));
-    }
 
 
     @RequestMapping(value = "/ssePage")

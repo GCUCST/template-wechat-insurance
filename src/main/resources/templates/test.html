@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>填写您的信息</title>
+    <meta charset="utf-8">
+    <meta th:include="/common/libs :: common_head"/>
+    <link rel="stylesheet" type="text/css" media="all"
+       th:href="@{css/custom.css}" />
+</head>
+<body data-weui-theme="light">
+
+<div style="margin: 10px;width: 90%">
+    <h1 class="requiredStyle">index page....</h1><br/>
+
+    [[${dog.name}]]<br/>
+
+    <input type="text" name="userName" value="James Carrot" th:value="${user.name}" /><br/>
+    <input type="text" name="userName2" value="James Carrot" th:value="${session.userSession.name}" /><br/>
+    <p th:text="#{welcomeTips}">Welcome to our grocery store!</p><br/>
+
+    <p th:utext="#{uWelcome}">Welcome to our grocery store!</p>
+
+    <p th:utext="|The name is ${user.name}| + ${25+63}|">字变量替换</p>
+
+
+
+</div>
+</body>
+</html>
