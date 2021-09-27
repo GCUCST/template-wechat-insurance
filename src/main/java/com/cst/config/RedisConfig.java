@@ -24,4 +24,13 @@ public class RedisConfig {
         return redisTemplate;
 
     }
+
+    @Bean
+    public LettuceConnectionFactory factory(){
+        return new LettuceConnectionFactory();
+    }
+
+
+
+
 }
