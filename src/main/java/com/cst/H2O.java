@@ -10,8 +10,11 @@ import java.util.function.IntConsumer;
 class H2O {
 
    static   Semaphore h = new Semaphore(2);
-    static Semaphore o = new Semaphore(0);
+    static Semaphore o = new Semaphore(1);
 
+
+    Lock lock = new ReentrantLock();
+    Lock lock2 = new ReentrantLock();
     public static void main(String[] args) throws InterruptedException {
         final H2O h2O = new H2O();
 
@@ -47,6 +50,7 @@ class H2O {
     }
 
     public  void hydrogen(Runnable releaseHydrogen) throws InterruptedException {
+        lock.lock();
         System.out.println("请求一个：h");
         h.acquire();
 
@@ -56,11 +60,13 @@ class H2O {
             System.out.println("释放o气");
             o.release();
         }
+        lock.unlock();
 
     }
 
     //0   h
     public void oxygen(Runnable releaseOxygen) throws InterruptedException {
+        lock2.lock();
         System.out.println("请求一个：o");
         o.acquire();
         releaseOxygen.run();
@@ -69,5 +75,6 @@ class H2O {
             h.release(2);
             System.out.println("释放2个h气");
         }
+        lock2.unlock();
     }
 }
